@@ -1,93 +1,127 @@
-const Transaction = {
-    Deposit: 'deposit',
-    Withdraw: 'withdraw',
-};
+//1
 
-const account = {
-
-    id: 1,
-
-    balance: 0,
+const bankAccount = {
+    ownerName: "Тимур",
+    accountNumber: "4523",
+    balance: 500,
+    
 
 
-    transactions: [],
-
-
-    createTransaction(amount, type) {
-        const newTransaction = {
-            amount: amount,
-            type: type,
-            id: this.id,
-        }
-        this.id += 1;
-        return newTransaction;
-    },
-
-    deposit(amount) {
-        this.balance += amount;
-        const transaction = this.createTransaction(amount, "deposit");
-        this.transactions.push(transaction);
+    deposit(money) {
+        this.balance += money;
+            alert(`Ваш баланс поповнено на ${money}, ваш баланс: ${this.balance}`);
     },
 
 
-    withdraw(amount) {
-        if (amount < this.balance) {
-            this.balance -= amount;
-            const transaction = this.createTransaction(amount, "withdraaw");
-            this.transactions.push(transaction);
+    withdraw(money) {
+        if (money <= this.balance) {
+        this.balance -= money;
         } else {
-            alert("Недостатьно коштів");
+            alert("Недостатньо коштів на рахунку!");
         }
+    }
+
+} 
+
+
+bankAccount.deposit(100);
+
+
+
+
+if (confirm("Поповнити рахунок?")) {
+    const userInput = parseFloat(prompt("Укажіть суму яку хочете покласти на рахунок"))
+    if (!isNaN(userInput) && userInput > 0) {
+        bankAccount.deposit(userInput);
+    } else {
+        alert("Не корректні данні!");
+    }
+} else if (confirm("Зняти гроші?")) {
+    const userInput = parseFloat(prompt("Укажіть суму яку хочете зняти з рахунку"))
+    if (!isNaN(userInput) && userInput > 0) {
+        bankAccount.deposit(userInput);
+    } else {
+        alert("Не корректні данні!");
+    }
+}
+
+
+
+console.log(bankAccount);
+
+
+//2
+
+const weather = {
+    temperature: null,
+    humidity: 14,
+    windSpeed: 18,
+
+    termometer() {
+        return this.temperature < 0;
     },
+}
 
 
-    getBalance() {
-        return this.balance
-    },
 
-    getTransactionDetails(id) {
-        for (const element of this.transactions) {
-            // console.log(element);
-            if (element.id === id) {
-                return element;
-            }
+
+
+const inputTemp = Number(prompt('Уведіть температуру в градусах'));
+weather.temperature = inputTemp;
+if (weather.termometer()) {
+    alert('температура нижче 0°С');
+} else {
+    alert('температура вище або рівна 0°С');
+}
+
+
+//3
+
+
+
+
+const user = {
+    name: "Timur",
+    email: "myemail@gmail.com",
+    password: "qwerty",
+
+    login(newEmail, newPassword) {
+        let message = "Ви ввели не корректні дані";
+        if (this.email === newEmail && this.password === newPassword) {
+            message = "Ваші дані корректні!";
         }
-        return null;
+        return message;
+    }
+}
+
+
+console.log(user.login("myemail@gmail.com", "qwerty"));
+
+
+//4
+
+
+const movie = {
+  title: "Home Alone",
+  director: "Chris Columbus",
+  year: 1990,
+  rating: 6,
+
+    movieRating() {
+        return this.rating > 8;
     },
 
-    getTransactionTotal(type) {
-        console.log(type);
-        let total = 0;
-        for (const element of this.transactions) {
-            if (element.type === type) {
-                total += element.amount;
-            }
-        }
-        return total;
+    changeRating(newRating) {
+        this.rating = newRating;
     },
-};
+}
 
+const inputRating = Number(prompt("Введіть рейтинг"));
+movie.changeRating(inputRating);
+movie.changeRating(9)
 
-account.deposit(100000)
-account.deposit(500)
-account.deposit(100)
-// account.deposit(500)
-account.deposit(500)
-account.deposit(500)
-
-
-console.log(account.getBalance()); 
-
-
-console.log(account.getTransactionDetails(1));
-
-
-console.log(account.getTransactionDetails(4));
-console.log(account.getTransactionDetails(5));
-console.log(account.getTransactionTotal(Transaction.Deposit));
-
-console.log(account.getTransactionTotal(Transaction.Withdraw));
-console.log(account.getTransactionTotal("withdraw"));
-console.log(account.getTransactionTotal("deposit"));
-
-console.log(account);
+if (movie.movieRating()) {
+    console.log(`Рейтинг фільму більше 8 і складає ${movie.rating}`);
+} else {
+    console.log(`Рейтинг фільму менше 8 і складає ${movie.rating}`);
+}
